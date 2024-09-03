@@ -1,0 +1,220 @@
+'use client'
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { GamepadIcon, BrainCircuitIcon, CodeIcon, RocketIcon, UsersIcon, InstagramIcon, TwitterIcon, LinkedinIcon } from "lucide-react"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import dynamic from 'next/dynamic'
+
+const DynamicThreeScene = dynamic(() => import('@/components/ThreeScene'), { ssr: false })
+
+export default function Component() {
+  const [registrationCount, setRegistrationCount] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRegistrationCount(prevCount => prevCount + Math.floor(Math.random() * 5))
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setRegistrationCount(prevCount => prevCount + 1)
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get('email')
+    console.log(`Registration submitted for: ${email}`)
+    e.currentTarget.reset()
+    alert('Registration successful! Check your email for further details.')
+  }
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-black to-gray-900 text-white">
+      <DynamicThreeScene />
+      <header className="relative z-10 px-4 lg:px-6 h-20 flex items-center justify-between">
+        <Link className="flex items-center justify-center" href="#">
+          <CodeIcon className="h-8 w-8 mr-2" />
+          <span className="font-bold text-2xl">CODE CON</span>
+        </Link>
+        <nav className="flex gap-4 sm:gap-6">
+          <Link className="text-sm font-medium hover:text-cyan-400 transition-colors" href="#events">
+            Events
+          </Link>
+          <Link className="text-sm font-medium hover:text-cyan-400 transition-colors" href="#register">
+            Register
+          </Link>
+          <Link className="text-sm font-medium hover:text-cyan-400 transition-colors" href="#sponsors">
+            Sponsors
+          </Link>
+          <Link className="text-sm font-medium hover:text-cyan-400 transition-colors" href="#organizers">
+            Organizers
+          </Link>
+          <Link className="text-sm font-medium hover:text-cyan-400 transition-colors" href="#about">
+            About
+          </Link>
+        </nav>
+      </header>
+      <main className="flex-1 relative z-10">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">
+                  Welcome to CODE CON
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-400 md:text-xl lg:text-2xl">
+                  Join us for an epic hackathon featuring gaming, quiz, tech, and coding events!
+                </p>
+              </div>
+              <div className="space-x-4">
+                <Button asChild className="bg-gradient-to-r from-pink-500 to-purple-500 text-white border-0 hover:from-pink-600 hover:to-purple-600">
+                  <Link href="#register">Register Now</Link>
+                </Button>
+                <Button variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">Learn More</Button>
+              </div>
+              <div className="mt-4 flex items-center justify-center space-x-2 text-cyan-400">
+                <UsersIcon className="w-6 h-6" />
+                <span className="text-xl font-bold">{registrationCount} Registrations</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="events" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">Event Categories</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { title: "Gaming", icon: GamepadIcon, description: "Compete in thrilling gaming tournaments across various genres." },
+                { title: "Quiz", icon: BrainCircuitIcon, description: "Test your knowledge in our tech and general quizzes." },
+                { title: "Tech", icon: RocketIcon, description: "Explore cutting-edge technology and innovative projects." },
+                { title: "Coding", icon: CodeIcon, description: "Showcase your coding skills in our programming challenges." },
+              ].map((category, index) => (
+                <Card key={index} className="bg-gray-800 border-gray-700 hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:-translate-y-2">
+                  <CardHeader>
+                    <CardTitle className="text-cyan-400">{category.title}</CardTitle>
+                    <category.icon className="w-8 h-8 mb-2 text-purple-500" />
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-gray-400">{category.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section id="register" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">Register for CODE CON</h2>
+                <p className="max-w-[600px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Don't miss out on this exciting event. Register now to secure your spot!
+                </p>
+              </div>
+              <div className="w-full max-w-sm space-y-2">
+                <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+                  <Input placeholder="Enter your email" type="email" name="email" className="bg-gray-800 border-gray-700 text-white placeholder-gray-500" required />
+                  <Button type="submit" className="bg-gradient-to-r from-pink-500 to-purple-500 text-white border-0 hover:from-pink-600 hover:to-purple-600">Register</Button>
+                </form>
+                <p className="text-sm text-gray-400">
+                  Registration details will be sent to help.codecon@gmail.com
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="sponsors" className="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">Our Sponsors</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-center">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((sponsor) => (
+                <div key={sponsor} className="flex items-center justify-center p-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                  <Image
+                    src={`/placeholder.svg?height=100&width=200`}
+                    alt={`Sponsor ${sponsor}`}
+                    width={200}
+                    height={100}
+                    className="max-w-full h-auto"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section id="organizers" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">Organized by</h2>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-12">
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-40 h-40 bg-gray-700 rounded-full flex items-center justify-center">
+                  <Image
+                    src="/placeholder.svg?height=120&width=120"
+                    alt="CODE CREW Logo"
+                    width={120}
+                    height={120}
+                    className="rounded-full"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 className="text-2xl font-bold text-cyan-400">CODE CREW</h3>
+              </div>
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-40 h-40 bg-gray-700 rounded-full flex items-center justify-center">
+                  <Image
+                    src="/placeholder.svg?height=120&width=120"
+                    alt="ALGORISM Logo"
+                    width={120}
+                    height={120}
+                    className="rounded-full"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 className="text-2xl font-bold text-cyan-400">ALGORISM</h3>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="about" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">About CODE CON</h2>
+            <div className="max-w-3xl mx-auto text-center">
+              <p className="text-xl text-gray-400 mb-8">
+                CODE CON is the ultimate hackathon experience, bringing together tech enthusiasts, gamers, and innovators from all over. Join us for an unforgettable journey of coding, gaming, and pushing the boundaries of technology.
+              </p>
+              <div className="flex justify-center space-x-6">
+                <Link href="https://www.instagram.com/codecon" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-500 transition-colors">
+                  <InstagramIcon className="w-8 h-8" />
+                  <span className="sr-only">Instagram</span>
+                </Link>
+                <Link href="https://twitter.com/codecon" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <TwitterIcon className="w-8 h-8" />
+                  <span className="sr-only">Twitter</span>
+                </Link>
+                <Link href="https://www.linkedin.com/company/codecon" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors">
+                  <LinkedinIcon className="w-8 h-8" />
+                  <span className="sr-only">LinkedIn</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="relative z-10 flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-700">
+        <p className="text-xs text-gray-400">© 2023 CODE CON. All rights reserved.</p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-xs hover:text-cyan-400 transition-colors" href="#">
+            Terms of Service
+          </Link>
+          <Link className="text-xs hover:text-cyan-400 transition-colors" href="#">
+            Privacy
+          </Link>
+        </nav>
+      </footer>
+    </div>
+  )
+}
